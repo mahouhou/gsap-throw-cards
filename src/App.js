@@ -1,6 +1,7 @@
 import "./App.css";
 import { useEffect, useState } from "react";
 import { gsap } from "gsap";
+import { imgArray, domain, format } from "./data/imgArray";
 
 export default function App() {
   const [CARDS, setCARDS] = useState([]);
@@ -54,10 +55,11 @@ export default function App() {
 
   //calculate max and min coordinates
   const cards = imgArray.map((img, index) => {
+    //y
     const Ymax = (index + 1) * 10 - 1; //9
     const Ymin = index * 10; //0
     const Yrand = Math.floor(Math.random() * (Ymax - Ymin + 1)) + Ymin;
-
+    //x
     const Xmin = 20;
     const Xmax = 0;
     const Xrand = Math.random() * (100 - Xmax - Xmin) + Xmin;
@@ -65,7 +67,7 @@ export default function App() {
     return (
       <div className="img-wrap">
         <img
-          src={`https://frejachristiana.com/cards/${img}.webp`}
+          src={domain + img + format}
           alt={img}
           key={img}
           className="card"
@@ -91,16 +93,3 @@ export default function App() {
     </div>
   );
 }
-
-const imgArray = [
-  "lucien-herve-observatory-jaipur-1955",
-  "matmata",
-  "milano-cenacolo-cortile-grande-de-la-cupola",
-  "remparts-d-aigues-mortes",
-  "segovia-acueducto-y-plaza-oriental",
-  "crimea-swallows-nest",
-  "laxey-wheel",
-  "slide-mantra-noguchi-1986",
-  "strasbourg-musee-alsacien",
-  "swimming-pool-slide-and-diving-boards",
-];
