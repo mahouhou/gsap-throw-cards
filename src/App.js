@@ -14,7 +14,9 @@ export default function App() {
   }, []);
 
   useEffect(() => {
-    const THROW = gsap.timeline({});
+    const THROW = gsap.timeline({
+      onComplete: addOffsetHeight,
+    });
     //animate cards
     CARDS.forEach((CARD, index) => {
       const THROW_SINGLE = gsap
@@ -52,6 +54,34 @@ export default function App() {
       THROW.add(SLIDE_SINGLE, 0);
     });
   }, [CARDS, WRAPPERS]);
+
+  //calculate offset height based on smallest y position
+  function addOffsetHeight() {
+    const gallery = galleryRef.current;
+
+    //get current y position of each card
+    if (CARDS.length !== 0) {
+      const CARDSYPositions = CARDS.map((CARD) => {
+        return {
+          element: CARD,
+          yPosition: Math.ceil(CARD.getBoundingClientRect().y),
+        };
+      });
+
+      //find the card with the smallest y position
+      const smallestYPosition = CARDSYPositions.reduce((min, card) => {
+        return card.yPosition < min.yPosition ? card : min;
+      });
+
+      //calculate vertical scroll height to include smallest y position
+      const zeroPosition = smallestYPosition.yPosition;
+      const verticalScrollHeight = zeroPosition < 0 ? -zeroPosition : 0;
+      gallery.style.paddingTop = `${verticalScrollHeight}px`;
+      //adjust to include any distance already scrolled
+      gallery.scrollTop = verticalScrollHeight;
+      gallery.style.height = gallery.offsetHeight + verticalScrollHeight + "px";
+    }
+  }
 
   //calculate max and min coordinates
   const cards = imgArray.map((img, index) => {
