@@ -1,11 +1,10 @@
 import "./App.css";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import { gsap } from "gsap";
 
 export default function App() {
   const [CARDS, setCARDS] = useState([]);
   const [WRAPPERS, setWRAPPERS] = useState([]);
-  const galleryRef = useRef(null);
   const imgWidth = 20;
 
   useEffect(() => {
@@ -85,7 +84,7 @@ export default function App() {
   return (
     <div className="App">
       <main>
-        <div id="gallery" ref={galleryRef}>
+        <div id="gallery" >
           {cards}
         </div>
       </main>
